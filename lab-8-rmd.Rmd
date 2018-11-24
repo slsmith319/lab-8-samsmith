@@ -50,8 +50,112 @@ salmon_model
 
 #equation: y=mx+b so eq is: imports(thousands of pounds)= 7550(year)-14,982,940
 
+#meanings:
+#slope: for every year that passes, imports increase by 7550 thousands of pounds of salmon.
+
+#y-intercept: at year 0, there are -14,982,940 thousands of pounds of salmon. This is concerning because you cannot import negative amounts of salmon. This means that the model can only extrapolate between 1990 and 2017. What is calculated before 1990 would be inaccurate.
 
 
+
+#
+
+
+
+```
+```{r}
+# Part 6:
+
+#look at 4 residual graphs in console first as EXPLORATORY GRAPHS
+
+#look at all 4 graphs at once:
+par(mfrow = c(2,2))
+plot(salmon_model)
+
+#Do residuals appear normally distributed? Yes, they appear to be ND according to the residuals-fixed and qq-plots, but there are three outliers that need closer examination.
+#Any concerns about heterscedascity? Yes, see above- there are three potential outliers that could affect this.
+
+
+#7. Explore model fit and significance
+
+summary(salmon_model)
+
+###See the lecture materials to interpret each component. Answer the following:
+
+#Does year significantly predict salmon imports? 
+  #Yes- year signficantly predicts salmon imports (p<0.001, R2=0.946).
+#What does the R2 value actually mean in words?
+  #94.6% of the variance in salmon imports can be explained by year.
+#What proportion of the variance in salmon imports is NOT explained by year?
+  #3.4% of the variance in salmon imports canNOT be predicted by year.
+
+
+```
+```{r}
+# 8 Prepare a final graph of the linear regression model with the original data, model, and 95% confidence intervals for predictions
+
+salmon_final_graph <- ggplot(salmon_freshest, aes(x = year, y = salmon_fresh)) +
+geom_point() +
+geom_smooth(method = lm, se = TRUE, size = 0.5, color = "gray20") +
+theme_bw() +
+scale_x_continuous(expand = c(0,0), limits = c(1990, 2017)) +
+labs(x = "Year", y = "U.S. Annual Fresh Salmon Imports\n(1,000 pounds)")
+
+salmon_final_graph
+
+#explore geom_smooth--notes in R useful 
+# to change CI: add levels=0.99 in geom_smooth() line
+
+
+
+```
+
+```{r}
+#9. Make predictions using the model
+
+#Option 2:
+
+#We want to use our model to make predictions for U.S. fresh salmon imports in years 2022, 2024,2026 and 2028.
+
+#Option 2 (recommended): Create a data frame containing the ‘new values’ that you want to make predictions for, feed that into the predict() function
+
+new_years <- data.frame(year = c(2022, 2024, 2026, 2028))
+
+#Use the PREDICT function to letting it know which model to use to make predictions for the new values.
+
+#Include interval = “confidence” to also report the lower and upper bounds of the 95% CI for model fit at each year.
+
+future_predict <- predict(salmon_model, newdata = new_years, interval = "confidence")
+future_predict
+
+#note- "fit" is the thousands of pounds of fish!
+
+#Bind the prediction outcomes (those are the values in column ‘fit’) with the ‘new_years’ data to actually create a useful table of predicted imports and upper and lower CI:
+
+predictions <- data.frame(new_years, future_predict)
+predictions
+
+```
+
+```{r}
+#10. Find Pearson’s r (correlation)
+
+#Use the cor.test() function to find Pearson’s r for the linear relationship described between year and salmon imports.
+
+#reminder: Pearson's R looks at how much change will happen (thousands of pounds of fish) by our model VERSUS R2 value explains by how much the variance in Y can be explained by X.
+
+#Generally, the formula for writing this in R is:
+#test_name <- cor.test(df$variable_1, df$variable_2)
+
+PearsonR <- cor.test(salmon_freshest$year, salmon_freshest$salmon_fresh)
+PearsonR
+
+#Pearson's R= 0.974
+#In words: Would you describe this as a weak/strong negative/positive correlation?
+## This is a strong positive correlation.
+
+#11. Write a concluding statement about the above relationship.
+
+# Year significantly predicts salmon imports (b= 7.550e03, t(26)= 21.73, p<0.001, , with a strong positive correlation between the two (Pearson's R=0.974). The overall model (salmon imports = 7550∗(year)-14,982,940; both in thousands of pounds) explains a signficant amount of variance in salmon imports. (F(1,26)=472, p<0.001, R2=0.946).
 
 
 ```
