@@ -155,7 +155,7 @@ PearsonR
 
 #11. Write a concluding statement about the above relationship.
 
-# Year significantly predicts salmon imports (b= 7.550e03, t(26)= 21.73, p<0.001, , with a strong positive correlation between the two (Pearson's R=0.974). The overall model (salmon imports = 7550∗(year)-14,982,940; both in thousands of pounds) explains a signficant amount of variance in salmon imports. (F(1,26)=472, p<0.001, R2=0.946).
+# Year significantly predicts salmon imports (b= 7.550e03, t(26)= 21.73, p<0.001, with a strong positive correlation between the two (Pearson's R=0.974). The overall model (salmon imports = 7550∗(year)-14,982,940; both in thousands of pounds) explains a signficant amount of variance in salmon imports. (F(1,26)=472, p<0.001, R2=0.946).
 
 
 ```
