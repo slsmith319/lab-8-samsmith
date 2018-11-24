@@ -9,3 +9,50 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+# load tidyverse
+#read in data
+#select only the columns you want
+
+library(tidyverse)
+salmon_fresh <- read_csv("salmon_fresh.csv")
+
+salmon_freshest <- salmon_fresh %>%
+  select(year, salmon_fresh)
+
+```
+
+```{r}
+ 
+#make an exploratory scatterplot
+
+salmon_scatter <- ggplot(salmon_freshest, aes(x=year, y=salmon_fresh)) +
+    geom_point()
+
+salmon_scatter
+  
+
+#there does seem to be a linear relationship but there are two clusters of data that dont seem to fit in the model.
+
+
+```
+
+```{r}
+#Part 5- Linear Regression in R
+
+#General syntax for linear regression in R
+
+#model_name <- lm(y_variable ~ x_variable, data = df_name)
+
+#For this model:
+salmon_model <- lm(salmon_fresh ~ year, data = salmon_freshest)
+salmon_model
+
+#equation: y=mx+b so eq is: imports(thousands of pounds)= 7550(year)-14,982,940
+
+
+
+
+
+```
+
